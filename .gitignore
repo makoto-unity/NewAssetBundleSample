@@ -1,3 +1,12 @@
 Library
 AssetBundles/OSX/assets
 Assets/jewel-s-free101j
+Assembly-CSharp-Editor-vs.csproj
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp-vs.csproj
+Assembly-CSharp.csproj
+NewAssetBundleSample-csharp.sln
+NewAssetBundleSample.sln
+NewAssetBundleSample.userprefs
+Temp
+debug-glsl-error-in-optimizer.txt
