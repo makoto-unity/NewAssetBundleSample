@@ -91,6 +91,7 @@ public class AssetBundleLoadLevelOperation : AssetBundleLoadOperation
 public abstract class AssetBundleLoadAssetOperation : AssetBundleLoadOperation
 {
 	public abstract T GetAsset<T>() where T : UnityEngine.Object;
+	public abstract Object [] GetAllAssets();
 }
 
 public class AssetBundleLoadAssetOperationSimulation : AssetBundleLoadAssetOperation
@@ -107,6 +108,11 @@ public class AssetBundleLoadAssetOperationSimulation : AssetBundleLoadAssetOpera
 		return m_SimulatedObject as T;
 	}
 	
+	public override Object [] GetAllAssets()
+	{
+		return null;
+	}
+
 	public override bool Update ()
 	{
 		return false;
@@ -140,7 +146,15 @@ public class AssetBundleLoadAssetOperationFull : AssetBundleLoadAssetOperation
 		else
 			return null;
 	}
-	
+
+	public override Object [] GetAllAssets()
+	{
+		if (m_Request != null && m_Request.isDone)
+			return m_Request.allAssets;
+		else
+			return null;
+	}
+
 	// Returns true if more Update calls are required.
 	public override bool Update ()
 	{
@@ -151,12 +165,12 @@ public class AssetBundleLoadAssetOperationFull : AssetBundleLoadAssetOperation
 		if (bundle != null)
 		{
 			m_Request = bundle.m_AssetBundle.LoadAssetAsync (m_AssetName, m_Type);
-			Debug.Log ("loading........................:" + m_AssetName);
+			Debug.Log ("Done!!! :" + m_AssetName);
 			return false;
 		}
 		else
 		{
-			Debug.Log ("Done!!! :" + m_AssetName);
+			Debug.Log ("loading........................:" + m_AssetName);
 			return true;
 		}
 	}

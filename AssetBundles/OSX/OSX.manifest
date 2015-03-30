@@ -4683,4 +4683,11 @@ AssetBundleManifest:
       Dependencies: {}
     Info_1560:
       Name: mycube.unity3d
+      Dependencies:
+        Dependency_0: assets/jewel-s-free101j/image/card/f001.png
+    Info_1561:
+      Name: assets/jewel-s-free101j/image/card/f001.png
+      Dependencies: {}
+    Info_1562:
+      Name: assets/mygame/board.png
       Dependencies: {}

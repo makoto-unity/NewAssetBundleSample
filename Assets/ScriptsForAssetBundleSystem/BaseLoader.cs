@@ -113,14 +113,30 @@ public class BaseLoader : MonoBehaviour {
 		yield return StartCoroutine(request);
 
 		// Get the asset.
-//		GameObject prefab = request.GetAsset<GameObject> ();
-//		Debug.Log(assetName + (prefab == null ? " isn't" : " is")+ " loaded successfully at frame " + Time.frameCount );
-//
-//		if (prefab != null)
-//			GameObject.Instantiate(prefab);
+		GameObject prefab = request.GetAsset<GameObject> ();
+		if ( prefab ) {
+			Debug.Log(assetName + " prefab is loaded successfully at frame " + Time.frameCount );
 
-		Texture tex = request.GetAsset<Texture>();
-		Debug.Log(assetName + (tex == null ? " isn't" : " is")+ " loaded texture successfully at frame " + Time.frameCount );
+			if (prefab != null)
+				GameObject.Instantiate(prefab);
+		}
+	}
+
+	protected AssetBundleLoadAssetOperation lastRequest;
+
+	protected IEnumerator LoadAs<T> (string assetBundleName, string assetName) where T : UnityEngine.Object
+	{
+		Debug.Log("Start to load " + assetName + " at frame " + Time.frameCount);
+		
+		// Load asset from assetBundle.
+		lastRequest = AssetBundleManager.LoadAssetAsync(assetBundleName, assetName, typeof(T) );
+		if (lastRequest == null)
+			yield break;
+		yield return StartCoroutine(lastRequest);
+		
+		// Get the asset.
+		T obj = lastRequest.GetAsset<T> ();
+		Debug.Log(assetName + " loading is" + (obj != null ? "successful !" : "failed..." )+ " at frame " + Time.frameCount );
 	}
 
 	protected IEnumerator LoadLevel (string assetBundleName, string levelName, bool isAdditive)

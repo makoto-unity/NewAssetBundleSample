@@ -219,10 +219,14 @@ public class AssetBundleManager : MonoBehaviour
 		string url = m_BaseDownloadingURL + assetBundleName;
 
 		// For manifest assetbundle, always download it as we don't have hash for it.
-		if (isLoadingAssetBundleManifest)
+		if (isLoadingAssetBundleManifest) {
 			download = new WWW(url);
-		else
+			Debug.Log ("Using WWW: " + assetBundleName );
+		}
+		else {
 			download = WWW.LoadFromCacheOrDownload(url, m_AssetBundleManifest.GetAssetBundleHash(assetBundleName), 0); 
+			Debug.Log ("Using LoadFromCacheOrDownload: " + assetBundleName);
+		}
 
 		m_DownloadingWWWs.Add(assetBundleName, download);
 
