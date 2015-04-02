@@ -25,6 +25,12 @@ public class AssetbundlesMenuItems
 		BuildScript.BuildAssetBundles();
 	}
 
+	[MenuItem ("AssetBundles/Build AssetBundles Batch")]
+	static public void BuildAssetBundlesBatch ()
+	{
+		BuildScript.BuildAssetBundlesBatch();
+	}
+	
 	[MenuItem ("AssetBundles/Build Player")]
 	static void BuildPlayer ()
 	{

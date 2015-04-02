@@ -42,8 +42,11 @@ public class BaseLoader : MonoBehaviour {
 			yield return StartCoroutine(request);
 	}
 
+	public string url = "";
+
 	public string GetRelativePath()
 	{
+		if ( url != "" ) return url;
 		if (Application.isEditor)
 			return "file://" +  System.Environment.CurrentDirectory.Replace("\\", "/"); // Use the build output folder directly.
 		else if (Application.isWebPlayer)
@@ -121,24 +124,7 @@ public class BaseLoader : MonoBehaviour {
 				GameObject.Instantiate(prefab);
 		}
 	}
-
-	protected AssetBundleLoadAssetOperation lastRequest;
-
-	protected IEnumerator LoadAs<T> (string assetBundleName, string assetName) where T : UnityEngine.Object
-	{
-		Debug.Log("Start to load " + assetName + " at frame " + Time.frameCount);
-		
-		// Load asset from assetBundle.
-		lastRequest = AssetBundleManager.LoadAssetAsync(assetBundleName, assetName, typeof(T) );
-		if (lastRequest == null)
-			yield break;
-		yield return StartCoroutine(lastRequest);
-		
-		// Get the asset.
-		T obj = lastRequest.GetAsset<T> ();
-		Debug.Log(assetName + " loading is" + (obj != null ? "successful !" : "failed..." )+ " at frame " + Time.frameCount );
-	}
-
+	
 	protected IEnumerator LoadLevel (string assetBundleName, string levelName, bool isAdditive)
 	{
 		Debug.Log("Start to load scene " + levelName + " at frame " + Time.frameCount);

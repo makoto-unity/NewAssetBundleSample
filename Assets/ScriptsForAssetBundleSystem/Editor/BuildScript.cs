@@ -19,6 +19,33 @@ public class BuildScript
 		BuildPipeline.BuildAssetBundles (outputPath, 0, EditorUserBuildSettings.activeBuildTarget);
 	}
 
+	public static void BuildAssetBundlesBatch()
+	{
+		// Choose the output path according to the build target.
+		string outputPath = Path.Combine(kAssetBundlesOutputPath,  BaseLoader.GetPlatformFolderForAssetBundles(EditorUserBuildSettings.activeBuildTarget) );
+		if (!Directory.Exists(outputPath) )
+			Directory.CreateDirectory (outputPath);
+
+		string [] args = System.Environment.GetCommandLineArgs();
+		Debug.Log ( "ARGS:" + args[9] );
+		int startRatio = int.Parse(args[9]);
+		int endRatio   = int.Parse(args[10]);
+		string [] allAssetBundleNames = AssetDatabase.GetAllAssetBundleNames();
+		int counter = allAssetBundleNames.Length * startRatio / 100;
+		int counter_end = allAssetBundleNames.Length * endRatio / 100;
+		Debug.Log ("Build " + counter + "/" + allAssetBundleNames.Length + " -> " + (counter_end-1) + "/" + allAssetBundleNames.Length );
+		AssetBundleBuild[] buildMap = new AssetBundleBuild[counter_end - counter];
+		int num = 0;
+		for( int i=counter ; i<counter_end ; i++ ) {
+			string abname = allAssetBundleNames[i];
+
+			buildMap[num].assetBundleName = abname;
+			buildMap[num].assetNames = AssetDatabase.GetAssetPathsFromAssetBundle(abname);
+			num++;
+		}
+		BuildPipeline.BuildAssetBundles (outputPath, buildMap, 0, EditorUserBuildSettings.activeBuildTarget);
+	}
+	
 	public static void BuildPlayer()
 	{
 		var outputPath = EditorUtility.SaveFolderPanel("Choose Location of the Built Game", "", "");

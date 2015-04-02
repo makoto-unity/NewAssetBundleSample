@@ -20,7 +20,7 @@ public class InfiniteScroll : UIBehaviour
 	[System.NonSerialized]
 	public List<RectTransform>	m_itemList = new List<RectTransform> ();
 
-	protected float m_diffPreFramePosiiton = 0;
+	protected float m_diffPreFramePosition = 0;
 
 	protected int m_currentItemNo = 0;
 
@@ -71,7 +71,6 @@ public class InfiniteScroll : UIBehaviour
 				.Select(item => item as IInfiniteScrollSetup )
 				.ToList();
 
-		Vector2 ofs = m_ItemBase.anchoredPosition;
 		// create items
 
 		var scrollRect = GetComponentInParent<ScrollRect>();
@@ -87,8 +86,8 @@ public class InfiniteScroll : UIBehaviour
 			item.name = i.ToString ();
 			item.anchoredPosition = 
 					(direction == Direction.Vertical ) ?
-					new Vector2 (0, -ItemScale * (i) + ofs.y) : 
-					new Vector2 (ItemScale * (i) + ofs.x, 0) ;
+					new Vector2 (0, -ItemScale * (i)) : 
+					new Vector2 (ItemScale * (i), 0) ;
 			m_itemList.Add (item);
 
 			item.gameObject.SetActive (true);
@@ -106,9 +105,9 @@ public class InfiniteScroll : UIBehaviour
 	void Update ()
 	{
 
-		while (AnchoredPosition - m_diffPreFramePosiiton  < -ItemScale * 2 ) {
+		while (AnchoredPosition - m_diffPreFramePosition  < -ItemScale * 2 ) {
 
-			m_diffPreFramePosiiton -= ItemScale;
+			m_diffPreFramePosition -= ItemScale;
 
 			var item = m_itemList [0];
 			m_itemList.RemoveAt (0);
@@ -123,9 +122,9 @@ public class InfiniteScroll : UIBehaviour
 
 		}
 
-		while (AnchoredPosition- m_diffPreFramePosiiton  > -ItemScale * 2) {
+		while (AnchoredPosition- m_diffPreFramePosition > 0 ) {
 
-			m_diffPreFramePosiiton += ItemScale;
+			m_diffPreFramePosition += ItemScale;
 
 			var itemListLastCount = m_instantateItemCount - 1; 
 			var item = m_itemList [itemListLastCount];

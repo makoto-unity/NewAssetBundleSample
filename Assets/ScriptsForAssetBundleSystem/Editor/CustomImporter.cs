@@ -7,7 +7,7 @@ using System.Collections;
 public class CsutomImporter : AssetPostprocessor {
 	void OnPostprocessTexture(Texture2D texture) {
 
-		assetImporter.assetBundleName = assetPath;
+		//assetImporter.assetBundleName = assetPath;
 		Debug.Log("change! asset bundle :" + assetImporter.assetBundleName);
 	}
 }
