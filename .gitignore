@@ -1,5 +1,5 @@
 Library
-AssetBundles/
+AssetBundles/*
 Assets/jewel-s-free101j
 Assembly-CSharp-Editor-vs.csproj
 Assembly-CSharp-Editor.csproj
