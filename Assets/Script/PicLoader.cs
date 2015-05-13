@@ -22,9 +22,14 @@ public class PicLoader : MonoBehaviour {
 	}
 
 	IEnumerator CreateCardEnumrator(string typeName, string fileName, Image sprImg) {
-		while( AssetBundleManager.AssetBundleManifestObject == null ) {
-			yield return null;
+
+		//In simulation mode, we dont need manifest file.
+		if (!AssetBundleManager.SimulateAssetBundleInEditor) {
+			while (AssetBundleManager.AssetBundleManifestObject == null) {
+				yield return null;
+			}
 		}
+
 		
 		string assetBundleName = "assets/jewel-s-free101j/image/" + typeName + "/" + fileName + ".png";
 		string assetName = fileName;
